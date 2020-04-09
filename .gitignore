@@ -1,0 +1,6 @@
+images-backup
+ghost-cookie.txt
+node_modules
+*database*.json
+svarych.backup*
+svarych-cloud-backup
