@@ -24,26 +24,23 @@ You can also use `npm link` to make `gdrive-upload` available globally.
 GHOSTUSER="Your username here"
 GHOSTPASSWORD="Your password here"
 ````
+## Using
+Run `backup.sh` to manually backup (or test and make sure it's working).
 
-### Set up backup to Google Drive or another service
-
-**Custom backup destination**:
-`backup.sh` uploads the backup with the line `node $backupDir/backupToDrive.js "$backupDir/$filename"`. Change this to fit your needs.
-
-The script calls `gdrive-upload` with the following code:
-````js
-const upload = require('gdrive-upload')
-
-upload(process.argv[2]);
+To run daily, add it to your crontab. Mine looks like this (backing up every night at 3 am):
+````crontab
+* * 3 * * /bin/bash /home/david/repos/backup-ghost-site/backup.sh > /home/david/repos/backup-ghost-site/cron.log
 ````
-For this you need `gdrive-upload` installed in the same directory as the backup script; I used `npm link` to symlink my local `gdrive-backup` directory to Node's global `node_modules` folder, then ran `npm link` in the backup script's directory.
+
+### Backing up to something besides Google Drive
+`backup.sh` uploads the backup with the line `node $backupDir/backupToDrive.js "$backupDir/$filename"`. Change this to fit your needs (e.g. replace with something to backup to Dropbox or another server).
 
 
 ## Technical details
 **Database backup**
 - Using `curl`, saves a JSON dump of the database from the `/ghost/api/v3/admin/db/` endpoint.
 - Calls `stripDBTimes.js` to strip values that change whenever we access the API
-- This lets us use `diff` and only backup on changes (e.g. a new or updated page). Currently clears values for the first Ghost user - if you log in as someone else, you need to update `stripDBTimes.js`.
+- This lets us use `diff` and only backup on changes (e.g. a new or updated page). Currently clears values (last log in time, etc) for the first Ghost user - if you log in as someone else, you need to update `stripDBTimes.js`.
 
 **Backup images**
 - Maintains a copy of Ghost's `images` folder and uses `rsync` to sync images.
