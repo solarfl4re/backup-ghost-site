@@ -1,14 +1,25 @@
 # backup-ghost-site
 Shell script to back up a Ghost CMS site (depends on [gdrive-upload](https://github.com/solarfl4re/gdrive-upload) to upload to Google Drive).
 
-## Using
-**Change variables in `backup.sh` for your site**
-- Replace `backupDir` with the path of the directory where you have the script.
-- `domain` should be the address of your site, e.g. `https://davidlane.io`.
+## Before Using
+- Install `zip` (`sudo apt install zip`)
+
+**Set up `gdrive-upload`**
+- Open [Node.js Quickstart](https://developers.google.com/drive/api/v3/quickstart/nodejs) and click 'Enable the Drive API'.
+- Give your project a name, and choose `TVs and limited input devices` in the dropdown.
+- Save `credentials.json` to `gdrive-upload/src` and in that directory run `node client.js` to set up your credentials.
+
+**Change defaults in `backup.sh` to match your site**
+- Change `backupDir` to the directory that `backup-ghost-site` is located in (e.g. /home/david/repos/backup-ghost-site)
+- Change `domain` to the address of your site, e.g. `https://davidlane.io`.
 - Change `ghostImagesFolder` to the path of your images directory (e.g. /var/www/ghost/content/images/)
 - _(Optional)_ Change `backupName` to customize the name of the backup archive
 
-**Fill in your credentials in `credentials.sh`**
+**Tell `backup-ghost-site` where `gdrive-upload` is**
+In backupToDrive.js, enter the path to `gdrive-upload`, for example: `...require('../gdrive-upload')`.
+You can also use `npm link` to make `gdrive-upload` available globally.
+
+**Enter your Ghost login credentials in `credentials.sh`**
 ````bash
 GHOSTUSER="Your username here"
 GHOSTPASSWORD="Your password here"
@@ -18,16 +29,6 @@ GHOSTPASSWORD="Your password here"
 
 **Custom backup destination**:
 `backup.sh` uploads the backup with the line `node $backupDir/backupToDrive.js "$backupDir/$filename"`. Change this to fit your needs.
-
-**Backup to Google Drive**:
-I wrote a script to upload a file to Google Drive based on Google's Node.js examples [upload.js](https://github.com/googleapis/google-api-nodejs-client/blob/master/samples/drive/upload.js) and [sampleclient.js](https://github.com/googleapis/google-api-nodejs-client/blob/master/samples/sampleclient.js).
-
-Follow [Node.js Quickstart](https://developers.google.com/drive/api/v3/quickstart/nodejs) to:
-- Turn on the Drive API
-- Download `credentials.json` (The 'TV' choice let me download the file)
-
-Use `index.js` and `client.js` from [gdrive-upload](https://github.com/solarfl4re/gdrive-upload) instead of the code on the page.
-Run `node client.js` (you need `credentials.json` in the same directory). You'll be prompted to visit a link to authorize the app; visit it, authorize, and paste in the code you get. Now `backup.sh` will upload backups to Google Drive.
 
 The script calls `gdrive-upload` with the following code:
 ````js
