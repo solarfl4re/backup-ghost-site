@@ -16,7 +16,7 @@ Shell script to back up a Ghost CMS site (depends on [gdrive-upload](https://git
 - _(Optional)_ Change `backupName` to customize the name of the backup archive
 
 **Tell `backup-ghost-site` where `gdrive-upload` is**
-In backupToDrive.js, enter the path to `gdrive-upload`, for example: `...require('../gdrive-upload')`.
+- In backupToDrive.js, enter the path to `gdrive-upload`, for example: `...require('../gdrive-upload')`.
 You can also use `npm link` to make `gdrive-upload` available globally.
 
 **Enter your Ghost login credentials in `credentials.sh`**
