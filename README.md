@@ -1,5 +1,5 @@
 # backup-ghost-site
-Shell script to back up a Ghost CMS site (depends on [gdrive-upload](https://github.com/solarfl4re/gdrive-upload) to upload to Google Drive).
+Shell script to back up a Ghost CMS site (depends on [gdrive-upload](https://github.com/solarfl4re/gdrive-upload) to upload to Google Drive). Has been running in production for more than a year.
 
 ## Before Using
 - Install `zip` (`sudo apt install zip`)
@@ -40,8 +40,8 @@ To run daily, add it to your crontab. Mine looks like this (backing up every nig
 **Database backup**
 - Using `curl`, saves a JSON dump of the database from the `/ghost/api/v3/admin/db/` endpoint.
 - Calls `stripDBTimes.js` to strip values that change whenever we access the API
-- This lets us use `diff` and only backup on changes (e.g. a new or updated page). Currently clears values (last log in time, etc) for the first Ghost user - if you log in as someone else, you need to update `stripDBTimes.js`.
+- Runs `diff` and to only backup when something has changed (e.g. a new or updated page). Currently clears values (last log in time, etc) for the first Ghost user - if you log in as someone else, you update `stripDBTimes.js`.
 
 **Backup images**
 - Maintains a copy of Ghost's `images` folder and uses `rsync` to sync images.
-- Only backs up images if they've changed.
+- Only includes images in backup if there are changes.
