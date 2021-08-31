@@ -1,5 +1,7 @@
 # backup-ghost-site
-Shell script to back up a Ghost CMS site (depends on [gdrive-upload](https://github.com/solarfl4re/gdrive-upload) to upload to Google Drive). Has been running in production for more than a year.
+Shell script to back up a Ghost CMS site (depends on [gdrive-upload](https://github.com/solarfl4re/gdrive-upload) to upload to Google Drive). Has been **running in production for more than a year**.
+
+Pull requests welcome.
 
 ## Before Using
 - Install `zip` (`sudo apt install zip`)
